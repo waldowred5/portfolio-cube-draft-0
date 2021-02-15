@@ -5,13 +5,13 @@ import { TrackballControls } from '../node_modules/three/examples/jsm/controls/T
 const scene = new THREE.Scene();
 
 // Camera takes 4 params: FOV (degrees), Aspect Ratio (Width / Height), Near Clipping Plane, Far Clipping Plane
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.6, 1200);
 camera.position.z = 10; // Set camera position
 
 const renderer = new THREE.WebGLRenderer({antialias: true});
 
 // Renderer settings:
-renderer.setClearColor("#E5E5E5");
+renderer.setClearColor("#2E4057");
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Add renderer to HTML as a canvas element
@@ -35,7 +35,7 @@ window.addEventListener('resize', () => {
 
 // Create sphere: Available params at https://threejs.org/docs/#api/en/geometries/SphereGeometry
 const sphereGeometry = new THREE.SphereGeometry(0.1, 32, 32); // Define geometry
-const sphereMaterial = new THREE.MeshLambertMaterial({color: 0xFF0000}) // Define material
+const sphereMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF}) // Define material (green: 0x47FF0A)
 const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial); // Build sphere
 sphereMesh.position.set(10, 0, 0)
 scene.add(sphereMesh); // Add sphere to canvas
@@ -48,7 +48,7 @@ const dTheta = 2 * Math.PI / 150; // Angle increment on each render (100 = incre
 
 // Create box: Available params at https://threejs.org/docs/#api/en/geometries/SphereGeometry
 const boxGeometry = new THREE.BoxGeometry(2, 2, 2); // Define geometry
-const boxMaterial = new THREE.MeshLambertMaterial({color: 0x293BE0}) // Define material
+const boxMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF}) // Define material (blue: 0x61D6FA)
 
 // Add one box with pivot
 const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial); // Build box
@@ -61,16 +61,45 @@ boxMesh.rotation.set(40, 0, 40); // Set box initial rotation
 // boxPivot.rotation.y = Math.PI / 2; //rotate the boxMesh 90 degrees around pivot
 scene.add(boxMesh); // Add box to canvas
 
-// Add light to scene
-const light1 = new THREE.PointLight(0XFFFFFF, 1, 500);
-light1.position.set(45, 45, 45); // Set light position
+// Lights
+const light1 = new THREE.PointLight(0x14D14A, 8, 12); // Red
+light1.position.set(1, 0, 8); // Set light position
+light1.light
 scene.add(light1); // Add light to canvas
 
-
-// Add light to scene
-const light2 = new THREE.PointLight(0XFFFFFF, 2, 500);
-light2.position.set(-25, -25, -25); // Set light position
+const light2 = new THREE.PointLight(0xBE61CF, 6, 12); // Pink
+light2.position.set(-2, -1, -10); // Set light position
 scene.add(light2); // Add light to canvas
+
+const light3 = new THREE.PointLight(0x00FFFF, 3, 10); // Light Blue
+light3.position.set(0, 10, 1); // Set light position
+scene.add(light3); // Add light to canvas
+
+const light4 = new THREE.PointLight(0x00FF00, 6, 12); // Green
+light4.position.set(0, -10, -1); // Set light position 
+scene.add(light4); // Add light to canvas
+
+const light5 = new THREE.PointLight(0x3021DA, 6, 12); // Dark Blue
+light5.position.set(10, 3, 0); // Set light position
+scene.add(light5); // Add light to canvas
+
+const light6 = new THREE.PointLight(0xF6CC15, 6, 12); // Orange
+light6.position.set(-10, -1, 0); // Set light position
+scene.add(light6); // Add light to canvas
+
+// Light Helpers
+const pointLightHelper1 = new THREE.PointLightHelper(light1);
+const pointLightHelper2 = new THREE.PointLightHelper(light2);
+const pointLightHelper3 = new THREE.PointLightHelper(light3);
+const pointLightHelper4 = new THREE.PointLightHelper(light4);
+const pointLightHelper5 = new THREE.PointLightHelper(light5);
+const pointLightHelper6 = new THREE.PointLightHelper(light6);
+scene.add(pointLightHelper1);
+scene.add(pointLightHelper2);
+scene.add(pointLightHelper3);
+scene.add(pointLightHelper4);
+scene.add(pointLightHelper5);
+scene.add(pointLightHelper6);
 
 // Ensure model aspect ratio is readjusted when screen size and screen aspect ratio change
 const render = function() {
