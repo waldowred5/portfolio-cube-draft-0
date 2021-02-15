@@ -6,7 +6,9 @@ const scene = new THREE.Scene();
 
 // Camera takes 4 params: FOV (degrees), Aspect Ratio (Width / Height), Near Clipping Plane, Far Clipping Plane
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.6, 1200);
-camera.position.z = 10; // Set camera position
+camera.position.z = 5; // Set camera position
+camera.position.y = 5; // Set camera position
+// camera.position.x = 5; // Set camera position
 
 const renderer = new THREE.WebGLRenderer({antialias: true});
 
@@ -59,12 +61,24 @@ sphereMesh4.position.set(6, 0, 0)
 scene.add(sphereMesh4); // Add sphere to canvas
 
 // Create box: Available params at https://threejs.org/docs/#api/en/geometries/SphereGeometry
-const boxGeometry = new THREE.BoxGeometry(2, 2, 2); // Define geometry
-const boxMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF}) // Define material (blue: 0x61D6FA)
+let boxGeometry = new THREE.BoxGeometry(2, 2, 2); // Define geometry
+const boxMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF}) // Define material (blue: 0x61D6FA) // Simple white box
+// Load manager for box image textures
+const loader = new THREE.TextureLoader(new THREE.LoadingManager());
+// // Image textures array
+// const boxMaterials = [
+//     new THREE.MeshLambertMaterial({map: loader.load('./img/help.png')}),
+//     new THREE.MeshLambertMaterial({map: loader.load('./img/help.png')}),
+//     new THREE.MeshLambertMaterial({map: loader.load('./img/envelope.png')}),
+//     new THREE.MeshLambertMaterial({map: loader.load('./img/envelope.png')}),
+//     new THREE.MeshLambertMaterial({map: loader.load('./img/rocket.png')}),
+//     new THREE.MeshLambertMaterial({map: loader.load('./img/rocket.png')})
+//   ];
 
 // Add one box
 const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial); // Build box
-boxMesh.rotation.set(40, 0, 40); // Set box initial rotation
+// boxMesh.applyMatrix4(new THREE.Matrix4().makeTranslation(1, 1, 1));
+// boxMesh.rotation.set(40, 0, 40); // Set box initial rotation
 
 //Make a pivot
 // const boxPivot = new THREE.Object3D();
@@ -126,10 +140,6 @@ const r4 = 2.75; // Radius of orbit
 let theta = 0; // Starting angle
 const dTheta = 2 * Math.PI / 100; // Angle increment on each render (100 = increments to complete revolution)
 
-// Additional Orbit Vectors
-// const vpoint1 = new THREE.Vector3(0, 0, 0)
-// const orbitVector1 = x.applyAxisAngle(vpoint1, 1)
-
 // Ensure model aspect ratio is readjusted when screen size and screen aspect ratio change
 const render = function() {
     requestAnimationFrame(render); // Rerender every time the page refreshes (pause when on another tab)
@@ -139,10 +149,13 @@ const render = function() {
 
     // Constantly rotate box
     boxMesh.rotation.z -= 0.005;
+    boxMesh.rotation.x -= 0.005;
+    // boxMesh.rotation.y -= 0.005;
 
     //Increment theta, and update sphere x and y
     //position based off new theta value        
     theta += dTheta;
+
     sphereMesh1.position.x = r1 * Math.cos(theta*1.05);
     sphereMesh1.position.z = r1 * Math.sin(theta*1.05);
     sphereMesh1.position.y = r1 * Math.cos(theta*1.05);
