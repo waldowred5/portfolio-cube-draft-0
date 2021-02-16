@@ -1,5 +1,6 @@
 import * as THREE from '../node_modules/three/build/three.module.js';
 import { TrackballControls } from '../node_modules/three/examples/jsm/controls/TrackballControls.js';
+import { GLTFLoader } from '../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 
 // 3 primary components: scene, camera and renderer
 const scene = new THREE.Scene();
@@ -60,11 +61,21 @@ const sphereMesh4 = new THREE.Mesh(sphereGeometry4, sphereMaterial4); // Build s
 sphereMesh4.position.set(6, 0, 0)
 scene.add(sphereMesh4); // Add sphere to canvas
 
+// Load external models
+// const gltfLoader = new GLTFLoader();
+// // Load cube
+// gltfLoader.load('./img/blank_cube.gltf', function (gltf) {
+//     const boxMesh = gltf.scene
+// 	scene.add(boxMesh);
+// }, undefined, function (error) {
+// 	console.error(error);
+// } );
+
 // Create box: Available params at https://threejs.org/docs/#api/en/geometries/SphereGeometry
 let boxGeometry = new THREE.BoxGeometry(2, 2, 2); // Define geometry
 const boxMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF}) // Define material (blue: 0x61D6FA) // Simple white box
 // Load manager for box image textures
-const loader = new THREE.TextureLoader(new THREE.LoadingManager());
+// const loader = new THREE.TextureLoader(new THREE.LoadingManager());
 // // Image textures array
 // const boxMaterials = [
 //     new THREE.MeshLambertMaterial({map: loader.load('./img/help.png')}),
@@ -78,7 +89,7 @@ const loader = new THREE.TextureLoader(new THREE.LoadingManager());
 // Add one box
 const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial); // Build box
 // boxMesh.applyMatrix4(new THREE.Matrix4().makeTranslation(1, 1, 1));
-// boxMesh.rotation.set(40, 0, 40); // Set box initial rotation
+boxMesh.rotation.set(40, 0, 40); // Set box initial rotation
 
 //Make a pivot
 // const boxPivot = new THREE.Object3D();
@@ -148,8 +159,8 @@ const render = function() {
     controls.update();
 
     // Constantly rotate box
-    boxMesh.rotation.z -= 0.005;
-    boxMesh.rotation.x -= 0.005;
+    scene.rotation.z -= 0.005;
+    // gltf.scene.rotation.x -= 0.005;
     // boxMesh.rotation.y -= 0.005;
 
     //Increment theta, and update sphere x and y
